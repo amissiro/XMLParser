@@ -10,6 +10,7 @@ public class Record {
 	   
 	   public String start_page;
 	   public String end_page;
+	   public String type;
 	   
 	   
 	   public Record(){
@@ -20,6 +21,6 @@ public class Record {
 	   @Override
 	    public String toString() {
 	        return "record:: booktitle = "+this.booktitle+" publisher = " + this.publisher +
-	        		"authors = " + this.authors_editors;
+	        		"authors = " + this.authors_editors + " -> "+this.type;
 	    }
 }

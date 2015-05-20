@@ -52,15 +52,24 @@ public class XMLP extends DefaultHandler {
         // if current element is book , create new book
         // clear tmpValue on start of element
 
-        if (elementName.equalsIgnoreCase("book") && attributes.getQName(0).equalsIgnoreCase("mdate")) {
+        if ((elementName.equalsIgnoreCase("incollection") && attributes.getQName(0).equalsIgnoreCase("mdate"))
+            ||(elementName.equalsIgnoreCase("book") && attributes.getQName(0).equalsIgnoreCase("mdate"))
+            ||(elementName.equalsIgnoreCase("inproceedings") && attributes.getQName(0).equalsIgnoreCase("mdate"))
+            ||(elementName.equalsIgnoreCase("proceedings") && attributes.getQName(0).equalsIgnoreCase("mdate"))	
+        	)
+        {
             record = new Record();
+            record.type = elementName;
         }
     }
     
     @Override
     public void endElement(String s, String s1, String element) throws SAXException {
         // if end of book element add to list
-        if (element.equals("book")) {
+        if (element.equals("incollection") 
+        		|| element.equals("book")
+        		|| element.equals("inproceedings")
+        		|| element.equals("proceedings")) {
         	records.add(record);
         }
         if (element.equalsIgnoreCase("author") || element.equalsIgnoreCase("editor")) {
@@ -76,11 +85,10 @@ public class XMLP extends DefaultHandler {
     @Override
     public void characters(char[] ac, int i, int j) throws SAXException {
         tmpValue = new String(ac, i, j);     
-        tmpValue = tmpValue.replaceAll("&", "&amp;");
-        System.out.println(tmpValue);
+
     }
     public static void main(String[] args) {
-        new XMLP("book.xml");
+        new XMLP("dblp-data.xml");
     }
 }
 
