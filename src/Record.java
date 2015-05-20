@@ -40,9 +40,14 @@ public class Record {
 	    		}
 	       	}
 	    	
-	    	
-
-	    	
 	        return  listString;
 	    }
+	    
+//	    public String toBookTitle() {
+//	    	
+//	    	String listString = "";
+//            listString += booktitle;
+//            
+//	        return  listString;
+//	    }
 }

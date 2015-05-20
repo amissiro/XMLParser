@@ -21,6 +21,8 @@ import org.xml.sax.helpers.DefaultHandler;
 public class XMLP extends DefaultHandler {
     List<Record> records;
     static Set<String> authors;
+    static Set<String> booktitles;
+    
     String xmlFile;
     String tmpValue;
     Record record;
@@ -31,6 +33,8 @@ public class XMLP extends DefaultHandler {
         this.xmlFile = xmlFile;
         records = new ArrayList<Record>();
         authors = new HashSet<String>();
+        booktitles = new HashSet<String>();
+
         parseDocument();
         printDatas();
     }
@@ -56,7 +60,6 @@ public class XMLP extends DefaultHandler {
         		{
         			if (!temp[i].isEmpty()){
         		        authors.add(temp[i]);
-        		        //System.out.println(temp[i]);
         			}
         		}
         	}
@@ -92,6 +95,8 @@ public class XMLP extends DefaultHandler {
         }
         if (element.equalsIgnoreCase("booktitle")) {
         	record.booktitle = tmpValue;
+        	booktitles.add(record.booktitle);
+        	
         }
         if(element.equalsIgnoreCase("publisher")){
         	record.publisher = tmpValue;
@@ -104,18 +109,29 @@ public class XMLP extends DefaultHandler {
     }
     public static void main(String[] args) throws FileNotFoundException, UnsupportedEncodingException {
         new XMLP("dblp-data.xml");
-        PrintWriter writer = new PrintWriter("people.sql", "UTF-8");
         
-        for (String author:authors )
+
+        
+        PrintWriter writer = new PrintWriter("booktitles.sql", "UTF-8");
+        for (String bookt:booktitles )
         {
 
-        	String insert = "INSERT INTO tbl_people (name) VALUES(\""+author.replaceAll("\"","") +"\");"; 
-        	//System.out.println(insert);
+        	String insert = "INSERT INTO tbl_booktitle (title) VALUES(\""+bookt.replaceAll("\"","") +"\");"; 
             writer.println(insert);
 
         	
         }
         writer.close();
+        
+//        for (String author:authors )
+//        {
+//
+//        	String insert = "INSERT INTO tbl_people (name) VALUES(\""+author.replaceAll("\"","") +"\");"; 
+//            writer.println(insert);
+//
+//        	
+//        }
+//        writer.close();
 
     }
 }
