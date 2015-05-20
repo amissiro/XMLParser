@@ -108,7 +108,8 @@ public class XMLP extends DefaultHandler {
         
         for (String author:authors )
         {
-        	String insert = "INSERT INTO tbl_people (name) VALUES(\""+author +"\");"; 
+
+        	String insert = "INSERT INTO tbl_people (name) VALUES(\""+author.replaceAll("\"","") +"\");"; 
         	//System.out.println(insert);
             writer.println(insert);
 
