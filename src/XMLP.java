@@ -77,7 +77,7 @@ public class XMLP extends DefaultHandler {
         tmpValue = new String(ac, i, j);
     }
     public static void main(String[] args) {
-        new XMLP("book.xml");
+        new XMLP("dblp-data.xml");
     }
 }
 
