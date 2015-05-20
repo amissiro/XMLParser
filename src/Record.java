@@ -17,10 +17,32 @@ public class Record {
 		   
 		   authors_editors = new ArrayList<String>();
 	   }
-	   
-	   @Override
-	    public String toString() {
-	        return "record:: booktitle = "+this.booktitle+" publisher = " + this.publisher +
-	        		"authors = " + this.authors_editors + " -> "+this.type;
+//	   
+//	   @Override
+//	    public String toString() {
+//	        return "record:: booktitle = "+this.booktitle+" publisher = " + this.publisher +
+//	        		"authors = " + this.authors_editors + " -> "+this.type;
+//	    }
+//	   
+	    public String toPeople() {
+	    	String listString = "";
+
+	    	for (int i = 0 ; i < authors_editors.size(); i++)
+	    	{
+
+	    		if (i==authors_editors.size()-1){
+	    			
+	    			listString += authors_editors.get(i);
+	    		}
+	    		else{
+		    		listString += authors_editors.get(i) + ",";
+
+	    		}
+	       	}
+	    	
+	    	
+
+	    	
+	        return  listString;
 	    }
 }

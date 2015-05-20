@@ -3,7 +3,9 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
@@ -15,6 +17,7 @@ import org.xml.sax.helpers.DefaultHandler;
 
 public class XMLP extends DefaultHandler {
     List<Record> records;
+    static Set<String> authors;
     String xmlFile;
     String tmpValue;
     Record record;
@@ -24,6 +27,7 @@ public class XMLP extends DefaultHandler {
     public XMLP(String xmlFile) {
         this.xmlFile = xmlFile;
         records = new ArrayList<Record>();
+        authors = new HashSet<String>();
         parseDocument();
         printDatas();
     }
@@ -44,7 +48,15 @@ public class XMLP extends DefaultHandler {
     
     private void printDatas() {
         for (Record r : records) {
-            System.out.println(r.toString());
+        	String[] temp = r.toPeople().trim().split(",");
+        	for (int i = 0; i < temp.length; i++){
+        		{
+        			if (!temp[i].isEmpty()){
+        		        authors.add(temp[i]);
+        		        //System.out.println(temp[i]);
+        			}
+        		}
+        	}
         }
     }
     @Override
@@ -89,6 +101,7 @@ public class XMLP extends DefaultHandler {
     }
     public static void main(String[] args) {
         new XMLP("dblp-data.xml");
+        System.out.println(authors);
     }
 }
 
