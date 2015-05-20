@@ -36,8 +36,6 @@ public class XMLP extends DefaultHandler {
         } catch (ParserConfigurationException e) {
             System.out.println("ParserConfig error");
         } catch (SAXException e) {
-            System.out.println(e);
-
             System.out.println("SAXException : xml not well formed");
         } catch (IOException e) {
             System.out.println("IO error");
@@ -77,10 +75,12 @@ public class XMLP extends DefaultHandler {
     }
     @Override
     public void characters(char[] ac, int i, int j) throws SAXException {
-        tmpValue = new String(ac, i, j);
+        tmpValue = new String(ac, i, j);     
+        tmpValue = tmpValue.replaceAll("&", "&amp;");
+        System.out.println(tmpValue);
     }
     public static void main(String[] args) {
-        new XMLP("dblp-data.xml");
+        new XMLP("book.xml");
     }
 }
 
