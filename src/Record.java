@@ -17,13 +17,7 @@ public class Record {
 		   
 		   authors_editors = new ArrayList<String>();
 	   }
-//	   
-//	   @Override
-//	    public String toString() {
-//	        return "record:: booktitle = "+this.booktitle+" publisher = " + this.publisher +
-//	        		"authors = " + this.authors_editors + " -> "+this.type;
-//	    }
-//	   
+   
 	    public String toPeople() {
 	    	String listString = "";
 
@@ -43,11 +37,5 @@ public class Record {
 	        return  listString;
 	    }
 	    
-//	    public String toBookTitle() {
-//	    	
-//	    	String listString = "";
-//            listString += booktitle;
-//            
-//	        return  listString;
-//	    }
+
 }
