@@ -37,6 +37,7 @@ public class XMLP extends DefaultHandler {
             System.out.println("ParserConfig error");
         } catch (SAXException e) {
             System.out.println(e);
+
             System.out.println("SAXException : xml not well formed");
         } catch (IOException e) {
             System.out.println("IO error");
@@ -79,7 +80,7 @@ public class XMLP extends DefaultHandler {
         tmpValue = new String(ac, i, j);
     }
     public static void main(String[] args) {
-        new XMLP("book.xml");
+        new XMLP("dblp-data.xml");
     }
 }
 
