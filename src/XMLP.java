@@ -22,6 +22,7 @@ public class XMLP extends DefaultHandler {
     List<Record> records;
     static Set<String> authors;
     static Set<String> booktitles;
+    static Set<String> publishers;
     
     String xmlFile;
     String tmpValue;
@@ -34,6 +35,7 @@ public class XMLP extends DefaultHandler {
         records = new ArrayList<Record>();
         authors = new HashSet<String>();
         booktitles = new HashSet<String>();
+        publishers = new HashSet<String>();
 
         parseDocument();
         printDatas();
@@ -100,6 +102,7 @@ public class XMLP extends DefaultHandler {
         }
         if(element.equalsIgnoreCase("publisher")){
         	record.publisher = tmpValue;
+        	publishers.add(record.publisher);
         }
     }
     @Override
@@ -113,15 +116,26 @@ public class XMLP extends DefaultHandler {
 
         
         PrintWriter writer = new PrintWriter("booktitles.sql", "UTF-8");
-        for (String bookt:booktitles )
-        {
+        
+      for (String publisher_p:publishers)
+      {
 
-        	String insert = "INSERT INTO tbl_booktitle (title) VALUES(\""+bookt.replaceAll("\"","") +"\");"; 
-            writer.println(insert);
+      	String insert = "INSERT INTO tbl_publisher (publisher_name) VALUES(\""+publisher_p.replaceAll("\"","") +"\");"; 
+          writer.println(insert);
 
-        	
-        }
-        writer.close();
+      	
+      }
+      writer.close();
+        
+//        for (String bookt:booktitles )
+//        {
+//
+//        	String insert = "INSERT INTO tbl_booktitle (title) VALUES(\""+bookt.replaceAll("\"","") +"\");"; 
+//            writer.println(insert);
+//
+//        	
+//        }
+//        writer.close();
         
 //        for (String author:authors )
 //        {
