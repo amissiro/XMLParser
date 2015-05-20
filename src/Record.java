@@ -8,8 +8,21 @@ public class Record {
 	   public String booktitle;
 	   public String publisher;
 	   
+	   public String title;
 	   public String start_page;
 	   public String end_page;
+	   public String year;
+	   public String volume;
+	   public String number;
+	   public String url;
+	   public String ee;
+	   public String cdrom;
+	   public String cite;
+	   public String crossref;
+	   public String isbn;
+	   public String series;
+	   public String editor_id;
+	   
 	   public String type;
 	   
 	   

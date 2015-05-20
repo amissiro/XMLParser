@@ -23,6 +23,7 @@ public class XMLP extends DefaultHandler {
     static Set<String> authors;
     static Set<String> booktitles;
     static Set<String> publishers;
+    static Set<String> dblp_documents;
     
     String xmlFile;
     String tmpValue;
@@ -36,6 +37,7 @@ public class XMLP extends DefaultHandler {
         authors = new HashSet<String>();
         booktitles = new HashSet<String>();
         publishers = new HashSet<String>();
+        dblp_documents = new HashSet<String>();
 
         parseDocument();
         printDatas();
@@ -115,7 +117,7 @@ public class XMLP extends DefaultHandler {
         
 
         
-        PrintWriter writer = new PrintWriter("booktitles.sql", "UTF-8");
+        PrintWriter writer = new PrintWriter("publishers.sql", "UTF-8");
         
       for (String publisher_p:publishers)
       {
