@@ -1,5 +1,8 @@
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -99,9 +102,20 @@ public class XMLP extends DefaultHandler {
         tmpValue = new String(ac, i, j);     
 
     }
-    public static void main(String[] args) {
+    public static void main(String[] args) throws FileNotFoundException, UnsupportedEncodingException {
         new XMLP("dblp-data.xml");
-        System.out.println(authors);
+        PrintWriter writer = new PrintWriter("people.sql", "UTF-8");
+        
+        for (String author:authors )
+        {
+        	String insert = "INSERT INTO tbl_people (name) VALUES(\""+author +"\");"; 
+        	//System.out.println(insert);
+            writer.println(insert);
+
+        	
+        }
+        writer.close();
+
     }
 }
 
