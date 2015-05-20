@@ -36,11 +36,13 @@ public class XMLP extends DefaultHandler {
         } catch (ParserConfigurationException e) {
             System.out.println("ParserConfig error");
         } catch (SAXException e) {
+            System.out.println(e);
             System.out.println("SAXException : xml not well formed");
         } catch (IOException e) {
             System.out.println("IO error");
         }
     }
+    
     private void printDatas() {
         for (Record r : records) {
             System.out.println(r.toString());
