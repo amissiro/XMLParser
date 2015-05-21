@@ -27,6 +27,8 @@ public class XMLP extends DefaultHandler {
     static List<List<String>> stupid_authors;
     List<String> titles;
     List<String> largebt;
+    List<Integer> bt;
+
 
     
     String xmlFile;
@@ -45,6 +47,8 @@ public class XMLP extends DefaultHandler {
         stupid_authors = new ArrayList<List<String>>();
         titles = new ArrayList<String>();
         largebt = new ArrayList<String>();
+         bt = new ArrayList<Integer>();
+
         parseDocument();
         printDatas();
     }
@@ -64,9 +68,7 @@ public class XMLP extends DefaultHandler {
     }
     
     private void printDatas() {
-    	
-    	System.out.println(publishers.size());
-    	System.out.println(records.size());
+
         for (Record r : records) {
         	String[] temp = r.toPeople().trim().split(",");
         	for (int i = 0; i < temp.length; i++){
@@ -80,25 +82,27 @@ public class XMLP extends DefaultHandler {
     	
         int j = 1; 
         
-        for (String author: authors){   	   
-           for (int i = 0; i < stupid_authors.size(); i++){        	   
-         	  if (stupid_authors.get(i).contains(author)){
-         		  record.editor_id = Integer.toString(j);
-                  j++;
-             	  break;
-         	  }
-           }         
-        }
-        
+//        
+//        for (Record r : records){      	
+//        	for (String author: authors){
+//        		if (r.authors_editors.contains(author)){			
+//        			r.editor_id = Integer.toString(j);
+//        		}
+//        	}
+//          j++;
+//        }
+//        
+
    j = 1;
-   
-   for (String bookt : booktitles){   
-	   for (int i = 0 ; i < largebt.size(); i++){		   
-		   if (largebt.get(i).equals(bookt)){		
-			   record.booktitle_id = Integer.toString(j);
-		   }
-	   } 
-	 j++;
+   for (String bt : booktitles){
+     for (Record r : records){
+	   if (r.booktitle!=null){
+	   if (r.booktitle.equals(bt)){
+		   r.booktitle_id = Integer.toString(j);
+	    }
+	   }
+     }
+     j++;
    }
    
    j = 1;
@@ -116,6 +120,26 @@ public class XMLP extends DefaultHandler {
 	 }
        j++;
    }
+   
+   int i = 1, l = 0;
+   for (Record r : records){
+	   
+	   for (String author : authors){
+	   if (r.authors_editors.contains(author)){
+		   
+			 
+//	     System.out.println(i + "->" + author + "-->" + (l+1));
+	     System.out.println("INSERT INTO tbl_author_document_mapping (doc_id, author_id) VALUES("+i+","+(l+1)+");");
+			   
+	   }
+     	   l++;
+	   }
+	  l=0;
+	i++;   
+   }
+   System.out.println(records.size());
+
+   
  }
     @Override
     public void startElement(String s, String s1, String elementName, Attributes attributes) throws SAXException {
@@ -220,35 +244,35 @@ public class XMLP extends DefaultHandler {
         new XMLP("dblp-data.xml");
         
 
-        for (Record r : records){
-     	   
-     	  //System.out.println(r.toDocuments());	   
-
-     	  String[] temp = r.toDocuments().split("@split@");
-     	  //String[] temp1 = temp.;
-     	  
-     	  String insert = "INSERT INTO tbl_dblp_document (title,start_page,end_page,year,volume,number,url,ee,cdrom,cite,crossref,isbn,series,editor_id,booktitle_id,genre_id,publisher_id)VALUES(\""
-     			  		  + temp[0].replaceAll("\"","")+"\","
-     			  		  + "\""+ temp[1] + "\","
-     			  		  + "\""+ temp[2] + "\","
-     			  		  + temp[3] + ","
-     			  		  + "\""+temp[4] + "\","
-     			  		  + temp[5] + ","
-     			  		  + "\""+temp[6].replaceAll("\"","")+"\","
-     			  		  + "\""+temp[7].replaceAll("\"","")+"\","
-     			  		  + "\""+temp[8].replaceAll("\"","")+"\","
-     			  		  + "\""+temp[9].replaceAll("\"","")+"\","
-     			  		  + "\""+temp[10].replaceAll("\"","")+"\","
-     			  		  + "\""+temp[11].replaceAll("\"","")+"\","
-     			  		  + "\""+temp[12].replaceAll("\"","")+"\","
-     			  		  + temp[13] + ","
-     			  		  + temp[14] + ","
-     			  		  + temp[15] + ","
-     			  		  + temp[16] +");";
-     	  
-     	  System.out.println(insert);
-        }
-        
+//        for (Record r : records){
+//     	   
+//     	  //System.out.println(r.toDocuments());	   
+//
+//     	  String[] temp = r.toDocuments().split("@split@");
+//     	  //String[] temp1 = temp.;
+//     	  
+//     	  String insert = "INSERT INTO tbl_dblp_document (title,start_page,end_page,year,volume,number,url,ee,cdrom,cite,crossref,isbn,series,editor_id,booktitle_id,genre_id,publisher_id)VALUES(\""
+//     			  		  + temp[0].replaceAll("\"","")+"\","
+//     			  		  + "\""+ temp[1] + "\","
+//     			  		  + "\""+ temp[2] + "\","
+//     			  		  + temp[3] + ","
+//     			  		  + "\""+temp[4] + "\","
+//     			  		  + temp[5] + ","
+//     			  		  + "\""+temp[6].replaceAll("\"","")+"\","
+//     			  		  + "\""+temp[7].replaceAll("\"","")+"\","
+//     			  		  + "\""+temp[8].replaceAll("\"","")+"\","
+//     			  		  + "\""+temp[9].replaceAll("\"","")+"\","
+//     			  		  + "\""+temp[10].replaceAll("\"","")+"\","
+//     			  		  + "\""+temp[11].replaceAll("\"","")+"\","
+//     			  		  + "\""+temp[12].replaceAll("\"","")+"\","
+//     			  		  + temp[13] + ","
+//     			  		  + temp[14] + ","
+//     			  		  + temp[15] + ","
+//     			  		  + temp[16] +");";
+//     	  
+//     	  System.out.println(insert);
+//        }
+//        
         
         
 //        PrintWriter writer = new PrintWriter("publishers.sql", "UTF-8");
