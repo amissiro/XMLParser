@@ -80,15 +80,15 @@ public class XMLP extends DefaultHandler {
     	
         int j = 1; 
         
-//        for (String author: authors){   	   
-//           for (int i = 0; i < stupid_authors.size(); i++){        	   
-//         	  if (stupid_authors.get(i).contains(author)){
-//         		  record.editor_id = Integer.toString(j);
-//                  j++;
-//             	  break;
-//         	  }
-//           }         
-//        }
+        for (String author: authors){   	   
+           for (int i = 0; i < stupid_authors.size(); i++){        	   
+         	  if (stupid_authors.get(i).contains(author)){
+         		  record.editor_id = Integer.toString(j);
+                  j++;
+             	  break;
+         	  }
+           }         
+        }
         
    j = 1;
    
@@ -168,7 +168,7 @@ public class XMLP extends DefaultHandler {
         	
         	if (pgs.length<2){
         	   record.start_page = pgs[0];
-        	   record.end_page = "";
+        	   record.end_page = pgs[0];
         	}
         	else if (pgs.length==2){
         	   record.start_page = pgs[0];
