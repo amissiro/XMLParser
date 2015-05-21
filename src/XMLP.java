@@ -174,6 +174,10 @@ public class XMLP extends DefaultHandler {
         	   record.start_page = pgs[0];
           	   record.end_page = pgs[1];
         	}
+        	else{
+        		record.start_page = "0";
+        		record.end_page = "0";
+        	}
         }
         if(element.equalsIgnoreCase("year")){
         	record.year = tmpValue;
@@ -223,12 +227,12 @@ public class XMLP extends DefaultHandler {
      	  String[] temp = r.toDocuments().split("@split@");
      	  //String[] temp1 = temp.;
      	  
-     	  String insert = "INSERT INTO tbl_dblp_document VALUES(\""
+     	  String insert = "INSERT INTO tbl_dblp_document (title,start_page,end_page,year,volume,number,url,ee,cdrom,cite,crossref,isbn,series,editor_id,booktitle_id,genre_id,publisher_id)VALUES(\""
      			  		  + temp[0].replaceAll("\"","")+"\","
-     			  		  + temp[1] + ","
-     			  		  + temp[2] + ","
+     			  		  + "\""+ temp[1] + "\","
+     			  		  + "\""+ temp[2] + "\","
      			  		  + temp[3] + ","
-     			  		  + temp[4] + ","
+     			  		  + "\""+temp[4] + "\","
      			  		  + temp[5] + ","
      			  		  + "\""+temp[6].replaceAll("\"","")+"\","
      			  		  + "\""+temp[7].replaceAll("\"","")+"\","
