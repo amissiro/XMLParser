@@ -24,6 +24,8 @@ public class Record {
 	   public String series;
 	   public String editor_id;
 	   public String genre_id;
+	   public String booktitle_id;
+	   public String publisher_id;
 	   public String type;
 	   
 	   
@@ -61,28 +63,22 @@ public class Record {
 	    }
 	    
 	    public String toDocuments() {
+	    	
 	    	String listString = null;
 
 	    	for (int i = 0; i < this.cite.size(); i ++){
 	    		
-	    		if (i==this.cite.size()-1){
-	    			
+	    		if (i==this.cite.size()-1){	
 	    			listString += this.cite.get(i);
 	    		}
 	    		else{
 		    		listString += this.cite.get(i) + ",";
 	    		}
-
 	    	}
-	        return  this.title + "@^token^@" + this.start_page + "@^token^@" + this.end_page + "@^token^@" + this.year + "@^token^@" +this.volume + "@^token^@"+
-	        		this.number + "@^token^@" + this.url + "@^token^@" + this.ee + "@^token^@" + this.cdrom + "@^token^@" + listString + "@^token^@" + this.crossref+"@^token^@"+        		
-	                this.isbn + "@^token^@" + this.series + "@^token^@" + this.genre_id;
+	    	
+	        return  this.title + "@split@" + this.start_page + "@split@" + this.end_page + "@split@" + this.year + "@split@" +this.volume + "@split@"+
+	        		this.number + "@split@" + this.url + "@split@" + this.ee + "@split@" + this.cdrom + "@split@" + listString + "@split@" + this.crossref+"@split@"+        		
+	                this.isbn + "@split@" + this.series + "@split@" + this.editor_id + "@split@"+ this.booktitle_id + "@split@" + this.genre_id + "@split@" + this.publisher_id;
 	    	    
 	    }
-	    
-
-	    
-
-	    
-
 }
