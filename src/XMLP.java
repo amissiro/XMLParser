@@ -37,7 +37,8 @@ public class XMLP extends DefaultHandler {
     
     SimpleDateFormat sdf= new SimpleDateFormat("yy-MM-dd");
     
-    public XMLP(String xmlFile) {
+    public XMLP(String xmlFile) throws FileNotFoundException, UnsupportedEncodingException {
+    	
         this.xmlFile = xmlFile;
         records = new ArrayList<Record>();
         authors = new HashSet<String>();
@@ -67,7 +68,7 @@ public class XMLP extends DefaultHandler {
         }
     }
     
-    private void printDatas() {
+    private void printDatas() throws FileNotFoundException, UnsupportedEncodingException {
 
         for (Record r : records) {
         	String[] temp = r.toPeople().trim().split(",");
@@ -81,18 +82,7 @@ public class XMLP extends DefaultHandler {
         }
     	
         int j = 1; 
-        
-//        
-//        for (Record r : records){      	
-//        	for (String author: authors){
-//        		if (r.authors_editors.contains(author)){			
-//        			r.editor_id = Integer.toString(j);
-//        		}
-//        	}
-//          j++;
-//        }
-//        
-
+              
    j = 1;
    for (String bt : booktitles){
      for (Record r : records){
@@ -122,24 +112,23 @@ public class XMLP extends DefaultHandler {
    }
    
    int i = 1, l = 0;
+   PrintWriter writer = new PrintWriter("doc_autor.sql", "UTF-8");
+   String insert = "";
    for (Record r : records){
 	   
 	   for (String author : authors){
-	   if (r.authors_editors.contains(author)){
-		   
-			 
-//	     System.out.println(i + "->" + author + "-->" + (l+1));
-	     System.out.println("INSERT INTO tbl_author_document_mapping (doc_id, author_id) VALUES("+i+","+(l+1)+");");
-			   
+	   if (r.authors_editors.contains(author)){  
+		 //System.out.println("INSERT INTO tbl_author_document_mapping (doc_id, author_id) VALUES("+i+","+(l+1)+");");
+		 insert = "INSERT INTO tbl_author_document_mapping (doc_id, author_id) VALUES("+i+","+(l+1)+");";
+		 writer.println(insert);
 	   }
-     	   l++;
+     	l++;
 	   }
 	  l=0;
 	i++;   
    }
-   System.out.println(records.size());
-
    
+   writer.close();
  }
     @Override
     public void startElement(String s, String s1, String elementName, Attributes attributes) throws SAXException {
@@ -237,75 +226,62 @@ public class XMLP extends DefaultHandler {
     }
     @Override
     public void characters(char[] ac, int i, int j) throws SAXException {
-        tmpValue = new String(ac, i, j);     
+    
+    	tmpValue = new String(ac, i, j);     
 
     }
+    
     public static void main(String[] args) throws FileNotFoundException, UnsupportedEncodingException {
         new XMLP("dblp-data.xml");
         
+        PrintWriter writer3 = new PrintWriter("bigdata.sql", "UTF-8");      
 
-//        for (Record r : records){
-//     	   
-//     	  //System.out.println(r.toDocuments());	   
-//
-//     	  String[] temp = r.toDocuments().split("@split@");
-//     	  //String[] temp1 = temp.;
-//     	  
-//     	  String insert = "INSERT INTO tbl_dblp_document (title,start_page,end_page,year,volume,number,url,ee,cdrom,cite,crossref,isbn,series,editor_id,booktitle_id,genre_id,publisher_id)VALUES(\""
-//     			  		  + temp[0].replaceAll("\"","")+"\","
-//     			  		  + "\""+ temp[1] + "\","
-//     			  		  + "\""+ temp[2] + "\","
-//     			  		  + temp[3] + ","
-//     			  		  + "\""+temp[4] + "\","
-//     			  		  + temp[5] + ","
-//     			  		  + "\""+temp[6].replaceAll("\"","")+"\","
-//     			  		  + "\""+temp[7].replaceAll("\"","")+"\","
-//     			  		  + "\""+temp[8].replaceAll("\"","")+"\","
-//     			  		  + "\""+temp[9].replaceAll("\"","")+"\","
-//     			  		  + "\""+temp[10].replaceAll("\"","")+"\","
-//     			  		  + "\""+temp[11].replaceAll("\"","")+"\","
-//     			  		  + "\""+temp[12].replaceAll("\"","")+"\","
-//     			  		  + temp[13] + ","
-//     			  		  + temp[14] + ","
-//     			  		  + temp[15] + ","
-//     			  		  + temp[16] +");";
-//     	  
-//     	  System.out.println(insert);
-//        }
-//        
+        for (Record r : records){
+     	  String[] temp = r.toDocuments().split("@split@");	  
+     	  String insert = "INSERT INTO tbl_dblp_document (title,start_page,end_page,year,volume,number,url,ee,cdrom,cite,crossref,isbn,series,editor_id,booktitle_id,genre_id,publisher_id)VALUES(\""
+     			  		  + temp[0].replaceAll("\"","")+"\","
+     			  		  + "\""+ temp[1] + "\","
+     			  		  + "\""+ temp[2] + "\","
+     			  		  + temp[3] + ","
+     			  		  + "\""+temp[4] + "\","
+     			  		  + temp[5] + ","
+     			  		  + "\""+temp[6].replaceAll("\"","")+"\","
+     			  		  + "\""+temp[7].replaceAll("\"","")+"\","
+     			  		  + "\""+temp[8].replaceAll("\"","")+"\","
+     			  		  + "\""+temp[9].replaceAll("\"","")+"\","
+     			  		  + "\""+temp[10].replaceAll("\"","")+"\","
+     			  		  + "\""+temp[11].replaceAll("\"","")+"\","
+     			  		  + "\""+temp[12].replaceAll("\"","")+"\","
+     			  		  + temp[13] + ","
+     			  		  + temp[14] + ","
+     			  		  + temp[15] + ","
+     			  		  + temp[16] +");";
+     	  
+     	  System.out.println(insert);
+     	  writer3.println(insert);  
+        }
+           writer3.close();
+           
+      PrintWriter writer = new PrintWriter("publishers.sql", "UTF-8");      
+      for (String publisher_p:publishers){
+      	String insert = "INSERT INTO tbl_publisher (publisher_name) VALUES(\""+publisher_p.replaceAll("\"","") +"\");"; 
+        writer.println(insert);
+      }
+        writer.close();
+      
+      PrintWriter writer1 = new PrintWriter("booktitle.sql", "UTF-8");
+      for (String bookt:booktitles ){
+        String insert = "INSERT INTO tbl_booktitle (title) VALUES(\""+bookt.replaceAll("\"","") +"\");"; 
+        writer1.println(insert);
+      }
+        writer1.close();
         
-        
-//        PrintWriter writer = new PrintWriter("publishers.sql", "UTF-8");
-//        
-//      for (String publisher_p:publishers)
-//      {
-//
-//      	String insert = "INSERT INTO tbl_publisher (publisher_name) VALUES(\""+publisher_p.replaceAll("\"","") +"\");"; 
-//          writer.println(insert);
-//
-//      	
-//      }
-//      writer.close();
-        
-//        for (String bookt:booktitles )
-//        {
-//
-//        	String insert = "INSERT INTO tbl_booktitle (title) VALUES(\""+bookt.replaceAll("\"","") +"\");"; 
-//            writer.println(insert);
-//
-//        	
-//        }
-//        writer.close();
-        
-//        for (String author:authors )
-//        {
-//
-//        	String insert = "INSERT INTO tbl_people (name) VALUES(\""+author.replaceAll("\"","") +"\");"; 
-//            writer.println(insert);
-//
-//        	
-//        }
-//        writer.close();
+      PrintWriter writer2 = new PrintWriter("names.sql", "UTF-8");
+      for (String author:authors ){
+        String insert = "INSERT INTO tbl_people (name) VALUES(\""+author.replaceAll("\"","") +"\");"; 
+        writer2.println(insert);  	
+      }
+        writer2.close();
 
     }
 }
